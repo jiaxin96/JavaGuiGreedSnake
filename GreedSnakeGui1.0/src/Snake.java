@@ -20,11 +20,23 @@ class Node {
 public class Snake {
 
 	
+	
+	public enum DIRECTION  {
+			UP, DOWN, LEFT, RIGHT
+	};
+	
 	private int head_x, head_y;
 	
 	private int length;
 	
 	public LinkedList<Node> snakeBody = new LinkedList<Node>();
+	
+
+	private boolean alive = true;
+	
+	public void isAlive() {
+		
+	}
 	
 	Snake() {
 		snakeBody.addFirst(new Node(WorldMap.MASH_COLUMN/2, WorldMap.MASH_ROW/2));
@@ -34,7 +46,14 @@ public class Snake {
 	}
 	
 	
-	
+ 	public void eat(Food f) {
+ 		
+ 	}
+ 	
+ 	public void move(DIRECTION dir) {
+ 		
+ 		
+ 	}
 	
 	
 }

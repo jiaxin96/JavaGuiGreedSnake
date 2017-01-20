@@ -18,19 +18,23 @@ public class WorldMap extends Frame {
 	
 	
 	private Snake  snake = new Snake();
+	private Food  food = new Food();
 	
-	private int foodNum = 0;
+	private boolean hasFood = false;
+	
+//	private int foodNum = 0;
 
 	
 	@Override
 	public void paint(Graphics g) {
 		Color c = g.getColor();
 		
-		g.setColor(Color.BLACK);
 		
+		// 设置背景色
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, MAP_MASH_W * MASH_COLUMN, MAP_MASH_H * MASH_ROW);
 		
-		
+		// 画网格
 		g.setColor(Color.cyan);
 		for	(int i = 0; i < MASH_COLUMN; ++i) {
 			g.drawLine(i * MAP_MASH_W, 0, i*MAP_MASH_W, MAP_MASH_H * MASH_ROW);
@@ -39,16 +43,22 @@ public class WorldMap extends Frame {
 			g.drawLine(0, i * MAP_MASH_H, MAP_MASH_W * MASH_COLUMN, i * MAP_MASH_H);
 		}
 		
-		
+		// 画出蛇身
 		g.setColor(Color.red);
 		for (Iterator<Node> it = snake.snakeBody.iterator(); it.hasNext();) {
 			Node t = (Node)it.next();
 			g.fillRect(t.gety()*MAP_MASH_W, t.getx()*MAP_MASH_H, MAP_MASH_W, MAP_MASH_H);
 		}
+		
+		// 画蛇头
 		g.setColor(Color.GRAY);
 		g.fillRect(snake.snakeBody.getFirst().gety()*MAP_MASH_W, snake.snakeBody.getFirst().getx()*MAP_MASH_H, MAP_MASH_W, MAP_MASH_H);
 		
-		
+		// 画食物
+		if(hasFood) {
+			g.setColor(Color.orange);
+			g.fillRect(food.y*MAP_MASH_W, food.x*MAP_MASH_H, MAP_MASH_W, MAP_MASH_H);
+		}
 		
 		g.setColor(c);
 	}
@@ -63,7 +73,32 @@ public class WorldMap extends Frame {
 		return gameState;
 	}
 	
+	public void generateOne() {
+		int tempx = (int)(Math.random()*WorldMap.MASH_COLUMN);
+		int tempy = (int)(Math.random()*WorldMap.MASH_ROW);
+		
+		while (conflict(tempx, tempy)) {
+			tempx = (int)(Math.random()*WorldMap.MASH_COLUMN);
+			tempy = (int)(Math.random()*WorldMap.MASH_ROW);	
+		}
+		food.x = tempx;
+		food.y = tempy;
+		hasFood = true;
+	}
+	
+	
+	private boolean conflict(int x, int y) {
+		for (Iterator<Node> it = snake.snakeBody.iterator(); it.hasNext();) {
+			Node t = (Node)it.next();
+			if (t.getx() == x && t.gety() == y) return true;
+		}
+		return false;
+	}
+	
 	public void launch() {
+		
+		this.generateOne();
+		
 		this.setLocation(100, 100);
 		this.setSize(MAP_MASH_H * MASH_COLUMN, MAP_MASH_W * MASH_ROW);
 		
