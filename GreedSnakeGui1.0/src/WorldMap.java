@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -9,6 +11,10 @@ public class WorldMap extends Frame {
 	
 
 
+
+
+
+
 	public static final int MAP_MASH_W = 30;
 	public static final int MAP_MASH_H = 30;
 	
@@ -17,12 +23,29 @@ public class WorldMap extends Frame {
 	public static final int MASH_COLUMN = 20;
 	
 	
+	
 	private Snake  snake = new Snake();
 	private Food  food = new Food();
 	
 	private boolean hasFood = false;
 	
 //	private int foodNum = 0;
+	
+	Image offScreenImage = null;
+
+	
+	
+	// 双缓冲 降噪
+	@Override
+	public void update(Graphics g) {
+		if (offScreenImage == null) {
+			offScreenImage = this.createImage(MAP_MASH_W * MASH_COLUMN, MAP_MASH_H * MASH_ROW);
+			
+		}
+		Graphics gOff = offScreenImage.getGraphics();
+		paint(gOff);
+		g.drawImage(offScreenImage,0,0,null);
+	}
 
 	
 	@Override
@@ -103,6 +126,7 @@ public class WorldMap extends Frame {
 		this.setSize(MAP_MASH_H * MASH_COLUMN, MAP_MASH_W * MASH_ROW);
 		
 		
+		
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -114,7 +138,35 @@ public class WorldMap extends Frame {
 		
 		this.setVisible(true);
 		
+		new Thread(new PaintThread()).start();
+		
 	}
+	
+	private class PaintThread implements Runnable {
+		@Override
+		public void run() {
+			while (true) {
+				repaint();
+				try {
+					Thread.sleep(50);
+				} catch(InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}	
+	}
+	
+	private class KeyMonitor extends KeyAdapter {
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			snake.move(e);
+		}
+		
+	}
+	
+	
 	
 	
 }

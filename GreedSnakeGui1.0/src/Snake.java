@@ -1,3 +1,4 @@
+import java.awt.event.KeyEvent;
 import java.util.*;
 
 class Node {
@@ -29,6 +30,8 @@ public class Snake {
 	
 	private int length;
 	
+	private DIRECTION headDir = DIRECTION.UP;
+	
 	public LinkedList<Node> snakeBody = new LinkedList<Node>();
 	
 
@@ -50,8 +53,8 @@ public class Snake {
  		
  	}
  	
- 	public void move(DIRECTION dir) {
- 		
+ 	public void move(KeyEvent e) {
+ 		int dircode = e.getKeyCode();
  		
  	}
 	
