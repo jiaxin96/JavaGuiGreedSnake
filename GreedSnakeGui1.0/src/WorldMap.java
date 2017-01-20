@@ -2,10 +2,25 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Iterator;
 
 
 public class WorldMap extends Frame {
 	
+
+
+	public static final int MAP_MASH_W = 30;
+	public static final int MAP_MASH_H = 30;
+	
+	public static final int MASH_ROW = 20;
+	
+	public static final int MASH_COLUMN = 20;
+	
+	
+	private Snake  snake = new Snake();
+	
+	private int foodNum = 0;
+
 	
 	@Override
 	public void paint(Graphics g) {
@@ -25,20 +40,19 @@ public class WorldMap extends Frame {
 		}
 		
 		
+		g.setColor(Color.red);
+		for (Iterator<Node> it = snake.snakeBody.iterator(); it.hasNext();) {
+			Node t = (Node)it.next();
+			g.fillRect(t.gety()*MAP_MASH_W, t.getx()*MAP_MASH_H, MAP_MASH_W, MAP_MASH_H);
+		}
+		g.setColor(Color.GRAY);
+		g.fillRect(snake.snakeBody.getFirst().gety()*MAP_MASH_W, snake.snakeBody.getFirst().getx()*MAP_MASH_H, MAP_MASH_W, MAP_MASH_H);
+		
+		
+		
 		g.setColor(c);
 	}
-
-	public static final int MAP_MASH_W = 30;
-	public static final int MAP_MASH_H = 30;
 	
-	public static final int MASH_ROW = 20;
-	
-	public static final int MASH_COLUMN = 20;
-	
-	
-	private Snake  snake = new Snake();
-	
-	private int foodNum = 0;
 	
 	
 	
