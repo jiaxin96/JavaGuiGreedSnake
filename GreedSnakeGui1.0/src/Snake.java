@@ -55,6 +55,24 @@ public class Snake {
  	
  	public void move(KeyEvent e) {
  		int dircode = e.getKeyCode();
+ 		switch (dircode) {
+		case KeyEvent.VK_W:
+			headDir = DIRECTION.UP;
+			break;
+		case KeyEvent.VK_A:
+			headDir = DIRECTION.LEFT;
+			break;
+		case KeyEvent.VK_S:
+			headDir = DIRECTION.DOWN;
+			break;
+		case KeyEvent.VK_D:
+			headDir = DIRECTION.RIGHT;
+			break;
+		default:
+			break;
+		}
+ 		
+ 		
  		
  	}
 	
