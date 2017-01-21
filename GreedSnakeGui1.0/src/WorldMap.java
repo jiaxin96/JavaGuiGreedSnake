@@ -158,10 +158,9 @@ public class WorldMap extends Frame {
 	}
 	
 	private class KeyMonitor extends KeyAdapter {
-
 		@Override
 		public void keyPressed(KeyEvent e) {
-			snake.move(e);
+			snake.move(e, food);
 		}
 		
 	}

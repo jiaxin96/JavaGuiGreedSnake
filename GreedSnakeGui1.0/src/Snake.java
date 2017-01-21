@@ -19,8 +19,6 @@ class Node {
 }
 
 public class Snake {
-
-	
 	
 	public enum DIRECTION  {
 			UP, DOWN, LEFT, RIGHT
@@ -49,31 +47,44 @@ public class Snake {
 	}
 	
 	
- 	public void eat(Food f) {
- 		
- 	}
- 	
- 	public void move(KeyEvent e) {
+ 	// 吃了食物返回true 没有吃返回false
+ 	public boolean move(KeyEvent e, Food food) {
+ 		boolean eat = false;
+ 		int tempx = head_x, tempy = head_y;
  		int dircode = e.getKeyCode();
  		switch (dircode) {
 		case KeyEvent.VK_W:
 			headDir = DIRECTION.UP;
+			tempx--;
 			break;
 		case KeyEvent.VK_A:
 			headDir = DIRECTION.LEFT;
+			tempy--;
 			break;
 		case KeyEvent.VK_S:
 			headDir = DIRECTION.DOWN;
+			tempx++;
 			break;
 		case KeyEvent.VK_D:
 			headDir = DIRECTION.RIGHT;
+			tempy++;
 			break;
 		default:
 			break;
 		}
  		
+ 		if (tempy > WorldMap.MASH_COLUMN || tempx > WorldMap.MASH_ROW || tempx < 0 || tempy < 0) {
+ 			this.alive = false;
+ 		}
+ 		head_x = tempx;
+ 		head_y = tempy;
  		
- 		
+ 		if (head_x != food.getx() || head_y != food.gety()) {
+ 			snakeBody.removeLast();
+ 			eat = true;
+ 		}
+ 		snakeBody.addFirst(new Node(head_x, head_y));
+ 		return eat;
  	}
 	
 	
