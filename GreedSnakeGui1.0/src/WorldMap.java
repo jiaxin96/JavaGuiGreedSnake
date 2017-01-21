@@ -83,9 +83,23 @@ public class WorldMap extends Frame {
 			g.fillRect(food.y*MAP_MASH_W, food.x*MAP_MASH_H, MAP_MASH_W, MAP_MASH_H);
 		}
 		
+		if (snake.move(food)) {
+			this.generateOne();
+		}
+		if (!snake.isAlive()) {
+			gameState = true;
+			this.win();
+		}
+		
 		g.setColor(c);
 	}
 	
+	
+	void win() {
+		
+		
+		
+	}
 	
 	
 	
@@ -135,6 +149,8 @@ public class WorldMap extends Frame {
 			
 		});
 		
+		this.addKeyListener(new KeyMonitor());
+		
 		
 		this.setVisible(true);
 		
@@ -148,7 +164,7 @@ public class WorldMap extends Frame {
 			while (true) {
 				repaint();
 				try {
-					Thread.sleep(50);
+					Thread.sleep(500);
 				} catch(InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -160,7 +176,24 @@ public class WorldMap extends Frame {
 	private class KeyMonitor extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent e) {
-			snake.move(e, food);
+	 		int dircode = e.getKeyCode();
+	 		switch (dircode) {
+			case KeyEvent.VK_W:
+				snake.setHeadDir(Snake.DIRECTION.UP);
+				break;
+			case KeyEvent.VK_A:
+				snake.setHeadDir(Snake.DIRECTION.LEFT);
+				System.out.println("LEFT############");
+				break;
+			case KeyEvent.VK_S:
+				snake.setHeadDir(Snake.DIRECTION.DOWN);
+				break;
+			case KeyEvent.VK_D:
+				snake.setHeadDir(Snake.DIRECTION.RIGHT);
+				break;
+			default:
+				break;
+			}
 		}
 		
 	}

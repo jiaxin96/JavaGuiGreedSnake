@@ -20,7 +20,7 @@ class Node {
 
 public class Snake {
 	
-	public enum DIRECTION  {
+	public enum  DIRECTION  {
 			UP, DOWN, LEFT, RIGHT
 	};
 	
@@ -35,8 +35,8 @@ public class Snake {
 
 	private boolean alive = true;
 	
-	public void isAlive() {
-		
+	public boolean isAlive() {
+		return alive;
 	}
 	
 	Snake() {
@@ -46,27 +46,27 @@ public class Snake {
 		length++;
 	}
 	
+
+		public void setHeadDir(DIRECTION d) {
+ 			headDir = d;
+ 		}
 	
  	// 吃了食物返回true 没有吃返回false
- 	public boolean move(KeyEvent e, Food food) {
+ 	public boolean move(Food food) {
  		boolean eat = false;
  		int tempx = head_x, tempy = head_y;
- 		int dircode = e.getKeyCode();
- 		switch (dircode) {
-		case KeyEvent.VK_W:
-			headDir = DIRECTION.UP;
+ 		
+ 		switch (headDir) {
+		case UP:
 			tempx--;
 			break;
-		case KeyEvent.VK_A:
-			headDir = DIRECTION.LEFT;
+		case LEFT:
 			tempy--;
 			break;
-		case KeyEvent.VK_S:
-			headDir = DIRECTION.DOWN;
+		case DOWN:
 			tempx++;
 			break;
-		case KeyEvent.VK_D:
-			headDir = DIRECTION.RIGHT;
+		case RIGHT:
 			tempy++;
 			break;
 		default:
@@ -75,12 +75,16 @@ public class Snake {
  		
  		if (tempy > WorldMap.MASH_COLUMN || tempx > WorldMap.MASH_ROW || tempx < 0 || tempy < 0) {
  			this.alive = false;
+ 			length = 0;
  		}
  		head_x = tempx;
  		head_y = tempy;
  		
  		if (head_x != food.getx() || head_y != food.gety()) {
  			snakeBody.removeLast();
+ 			eat = false;
+ 			length++;
+ 		} else {
  			eat = true;
  		}
  		snakeBody.addFirst(new Node(head_x, head_y));
