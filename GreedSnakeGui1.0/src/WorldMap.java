@@ -139,8 +139,8 @@ public class WorldMap extends Frame {
 		this.setLocation(100, 100);
 		this.setSize(MAP_MASH_H * MASH_COLUMN, MAP_MASH_W * MASH_ROW);
 		
-		
-		
+		this.setResizable(false);
+		// 类似Qt中的connect 和event 注册监听
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -164,13 +164,13 @@ public class WorldMap extends Frame {
 			while (true) {
 				repaint();
 				try {
-					Thread.sleep(500);
+					Thread.sleep(300);
 				} catch(InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 			
-		}	
+		}
 	}
 	
 	private class KeyMonitor extends KeyAdapter {
